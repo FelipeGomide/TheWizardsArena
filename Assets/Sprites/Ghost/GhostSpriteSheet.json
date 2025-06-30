@@ -1,0 +1,54 @@
+{ "frames": [
+   {
+    "filename": "GhostSpriteSheet.png",
+    "frame": { "x": 0, "y": 0, "w": 38, "h": 47 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 47 },
+    "sourceSize": { "w": 38, "h": 47 },
+    "duration": 100
+   },
+   {
+    "filename": "GhostSpriteSheet.png",
+    "frame": { "x": 38, "y": 0, "w": 38, "h": 47 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 47 },
+    "sourceSize": { "w": 38, "h": 47 },
+    "duration": 100
+   },
+   {
+    "filename": "GhostSpriteSheet.png",
+    "frame": { "x": 76, "y": 0, "w": 38, "h": 47 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 47 },
+    "sourceSize": { "w": 38, "h": 47 },
+    "duration": 100
+   },
+   {
+    "filename": "GhostSpriteSheet.png",
+    "frame": { "x": 114, "y": 0, "w": 38, "h": 47 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 47 },
+    "sourceSize": { "w": 38, "h": 47 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.x-dev",
+  "image": "GhostSpriteSheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 152, "h": 47 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

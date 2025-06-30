@@ -1,0 +1,32 @@
+#pragma once 
+#include "Actor.h"
+#include "States.h"
+class Enemy : public Actor {
+public:
+    explicit Enemy(Game* game, std::vector<Vector2> patrolPath);
+
+    void OnUpdate(float deltaTime) override;
+    void OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other) override;
+    void OnVerticalCollision(const float minOverlap, AABBColliderComponent* other) override;
+    void Kill() override;
+
+protected:
+
+    class RigidBodyComponent* mRigidBodyComponent;
+    class DrawAnimatedComponent* mDrawComponent;
+    class AABBColliderComponent* mColliderComponent;
+
+    States mCurrentState = States::Patrol;
+    std::vector<Vector2> mPatrolPath;
+    int mDirectionPatrol = +1;
+    int mCurPosPatrol = 0;
+
+    float mTilesRadiusPerception = 10;
+    float mMaxvelocity = 70;
+    float mForwardSpeed = 1000.0f;
+
+    void HandleTransition();
+    void PatrolAction();
+    void PersueAction();
+    void AttackAction();
+};

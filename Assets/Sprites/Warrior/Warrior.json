@@ -1,0 +1,102 @@
+{ "frames": [
+   {
+    "filename": "guerreiro_mexidot 0.ase",
+    "frame": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "sourceSize": { "w": 96, "h": 48 },
+    "duration": 100
+   },
+   {
+    "filename": "guerreiro_mexidot 1.ase",
+    "frame": { "x": 96, "y": 0, "w": 96, "h": 48 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "sourceSize": { "w": 96, "h": 48 },
+    "duration": 100
+   },
+   {
+    "filename": "guerreiro_mexidot 2.ase",
+    "frame": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "sourceSize": { "w": 96, "h": 48 },
+    "duration": 100
+   },
+   {
+    "filename": "guerreiro_mexidot 3.ase",
+    "frame": { "x": 192, "y": 0, "w": 96, "h": 48 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "sourceSize": { "w": 96, "h": 48 },
+    "duration": 100
+   },
+   {
+    "filename": "guerreiro_mexidot 4.ase",
+    "frame": { "x": 0, "y": 48, "w": 96, "h": 48 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "sourceSize": { "w": 96, "h": 48 },
+    "duration": 200
+   },
+   {
+    "filename": "guerreiro_mexidot 5.ase",
+    "frame": { "x": 96, "y": 48, "w": 96, "h": 48 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "sourceSize": { "w": 96, "h": 48 },
+    "duration": 300
+   },
+   {
+    "filename": "guerreiro_mexidot 6.ase",
+    "frame": { "x": 192, "y": 48, "w": 96, "h": 48 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "sourceSize": { "w": 96, "h": 48 },
+    "duration": 100
+   },
+   {
+    "filename": "guerreiro_mexidot 7.ase",
+    "frame": { "x": 0, "y": 96, "w": 96, "h": 48 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "sourceSize": { "w": 96, "h": 48 },
+    "duration": 100
+   },
+   {
+    "filename": "guerreiro_mexidot 8.ase",
+    "frame": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 48 },
+    "sourceSize": { "w": 96, "h": 48 },
+    "duration": 1000
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.x-dev",
+  "image": "guerreiro_mexido.png",
+  "format": "RGBA8888",
+  "size": { "w": 288, "h": 144 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Running", "from": 0, "to": 3, "direction": "forward", "color": "#000000ff" },
+   { "name": "Idle", "from": 0, "to": 0, "direction": "forward", "color": "#000000ff" },
+   { "name": "Attack", "from": 4, "to": 8, "direction": "forward", "color": "#000000ff" }
+  ],
+  "layers": [
+   { "name": "Warrior", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
