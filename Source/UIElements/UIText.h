@@ -19,6 +19,8 @@ public:
     void SetText(const std::string& name);
     void Draw(SDL_Renderer* renderer, const Vector2 &screenPos, Uint8 mAlpha=255);// override;
 
+    void SetFade(bool fade){mFade = fade;}
+
 protected:
     std::string mText;
     class UIFont* mFont;

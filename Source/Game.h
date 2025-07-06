@@ -28,6 +28,8 @@ public:
     enum class GameScene
     {
         MainMenu,
+        HowToPlay,
+        Credits,
         Level1,
         Level2,
         Level3,
@@ -68,6 +70,11 @@ public:
 
     // Level functions
     void LoadMainMenu();
+
+    void LoadHowToPlay();
+
+    void LoadCredits();
+
     void LoadLevel(const std::string& levelName, const int levelWidth, const int levelHeight);
 
     void LoadGameOverMenu();
@@ -97,6 +104,7 @@ public:
     SDL_Texture* LoadTexture(const std::string& texturePath);
 
     void SetGameScene(GameScene scene, float transitionTime = .0f);
+    GameScene GetGameScene() {return mGameScene; }
     void ResetGameScene(float transitionTime = .0f);
     void UnloadScene();
 
@@ -121,7 +129,6 @@ public:
     void DecreaseEnemiesAlive() { mEnemiesAlive -= 1; }
 
     SpatialHashing* GetSpatialHashing() { return mSpatialHashing; }
-    GameScene GetCurrentGameScene() { return mGameScene; }
 
 private:
     void ProcessInput();

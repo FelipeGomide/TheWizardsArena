@@ -124,7 +124,7 @@ bool Game::Initialize()
 
 void Game::SetGameScene(Game::GameScene scene, float transitionTime)
 {
-    bool cenaValida = scene == GameScene::MainMenu || scene == GameScene::Level1 || scene == GameScene::Level2 || scene == GameScene::Level3 || scene == GameScene::Level4 || scene == GameScene::Level5 || scene == GameScene::GameOver;
+    bool cenaValida = scene == GameScene::MainMenu || scene == GameScene::Level1 || scene == GameScene::Level2 || scene == GameScene::Level3 || scene == GameScene::Level4 || scene == GameScene::Level5  || scene == GameScene::GameOver || scene == GameScene::HowToPlay || scene == GameScene::Credits;
 
     if (mSceneManagerState == SceneManagerState::None && cenaValida) {
         mNextScene = scene;
@@ -258,6 +258,12 @@ void Game::ChangeScene()
         mMusicHandle = mAudio->PlaySound("theme/Close.mp3", true);
         LoadGameOverMenu();
     }
+    else if (mNextScene == GameScene::HowToPlay) {
+        LoadHowToPlay();
+    }
+    else if (mNextScene == GameScene::Credits) {
+        LoadCredits();
+    }
     // Set new scene
     mGameScene = mNextScene;
 }
@@ -265,15 +271,17 @@ void Game::ChangeScene()
 void Game::LoadGameOverMenu(){
     auto menu = new UIScreen(this, "../Assets/Fonts/SMB.ttf");
     SetBackgroundImage("../Assets/Sprites/Fundo-tijolos.png", Vector2(0,0), Vector2(mWindowWidth, mWindowHeight));
-    menu->AddImage("../Assets/Sprites/GameOver.png", Vector2::Zero, Vector2(mWindowWidth + 10, 0.8 *mWindowHeight));
-    menu->AddText("APERTE QUALQUER BOTÃO PARA COMEÇAR", Vector2(50, 650), Vector2(1000, 30), 30);
+    if (mEnemiesAlive == 0)
+        menu->AddImage("../Assets/Sprites/Victory.png", Vector2::Zero, Vector2(mWindowWidth + 10, 0.8 *mWindowHeight));
+    else
+        menu->AddImage("../Assets/Sprites/GameOver.png", Vector2::Zero, Vector2(mWindowWidth + 10, 0.8 *mWindowHeight));
+    menu->AddText("PRESS ANY KEY TO CONTINUE", Vector2(50, 650), Vector2(1000, 30), 30, true);
 }
 
 void Game::LoadMainMenu()
 {
     // Esse método será usado para criar uma tela de UI e adicionar os elementos do menu principal.
     auto mainMenu = new UIScreen(this, "../Assets/Fonts/Kenney Bold.ttf");
-    // mainMenu->AddText("Super Mario Bros", Vector2(170.0f, 50.0f), Vector2(300.0f, 30.0f));
 
     const Vector2 logoSize = Vector2(1080.0f, 567.42f);
     const Vector2 logoPos = Vector2(mWindowWidth/2.0f - logoSize.x/2.0f, 0);
@@ -282,24 +290,60 @@ void Game::LoadMainMenu()
     // Background
     SetBackgroundImage("../Assets/Sprites/Fundo-tijolos.png", Vector2(0,0), Vector2(1080,720));
 
-    // Vector2 anchorBlocks(0, mWindowHeight - 1.25*TILE_SIZE);
-    // for (int i = 0; i < 2; i ++) {
-    //     for (int j = 0; j < 30; j ++) {
-    //         Vector2 pos = anchorBlocks;
-    //         pos.x += j * TILE_SIZE;
-    //         pos.y += i * TILE_SIZE;
-    //         mainMenu->AddImage("../Assets/Sprites/Blocks/Tijolo-pedra-1.jpg", pos, Vector2(TILE_SIZE, TILE_SIZE));
-    //     }
-    // }
+    auto strStart = "START";
+    float posStart = (mWindowWidth/3 - std::strlen(strStart) * 16) / 2.0f;
+    auto buttonStart = mainMenu->AddButton(strStart, Vector2(posStart, 625), Vector2(std::strlen(strStart) * 16, 40.0f),[this]() {
+        SetGameScene(GameScene::Level1, 3.0f);
+    });
 
-    // auto button1 = mainMenu->AddButton("1 Player", Vector2(mWindowWidth/2.0f - 100.0f, 250.0f), Vector2(200.0f, 40.0f),[this]() {
-    //     SetGameScene(GameScene::Level1, 3.0f);
-    // });
-    // auto button2 = mainMenu->AddButton("2 Players", Vector2(mWindowWidth/2.0f - 100.0f, 300.0f), Vector2(200.0f, 40.0f),nullptr);
-    // button1->SetHighlighted(false), button2->SetHighlighted(false);
+    auto strHowToPlay = "HOW TO PLAY";
+    float posHowToPlay = (mWindowWidth/3 - std::strlen(strHowToPlay) * 16) / 2.0f + mWindowWidth/3;
+    auto buttonHowToPlay = mainMenu->AddButton(strHowToPlay, Vector2(posHowToPlay, 625), Vector2(std::strlen(strHowToPlay) * 16, 40.0f),[this]() {
+        SetGameScene(GameScene::HowToPlay, 3.0f);
+    });
 
-    auto str = "PRESS ANY BUTTON TO START!";
-    mainMenu->AddText(str, Vector2(mWindowWidth/2 - (std::strlen(str) * 10), 625), Vector2(std::strlen(str) * 20, 30), 30, true);
+    auto strCredits = "CREDITS";
+    float posCredits = (mWindowWidth/3 - std::strlen(strCredits) * 16) / 2.0f + mWindowWidth/3 * 2;
+    auto buttonCredits = mainMenu->AddButton(strCredits, Vector2(posCredits, 625), Vector2(std::strlen(strCredits) * 16, 40.0f),[this]() {
+        SetGameScene(GameScene::Credits, 3.0f);
+    });
+
+}
+
+void Game::LoadHowToPlay() {
+    auto HTP = new UIScreen(this, "../Assets/Fonts/Kenney Bold.ttf");
+    SetBackgroundImage("../Assets/Sprites/Fundo-tijolos.png", Vector2(0,0), Vector2(mWindowWidth, mWindowHeight));
+
+    auto str = "CONTROLS";
+    HTP->AddText(str, Vector2(mWindowWidth/2 - std::strlen(str) * 25.0f/2, 25), Vector2(std::strlen(str) * 25, 70), 40, false, 2000, Color::Yellow);
+    str = "A and D to move";
+    HTP->AddText(str, Vector2(150, 175), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
+    str = "SPACE BAR to jump";
+    HTP->AddText(str, Vector2(150, 275), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
+    str = "K to attack";
+    HTP->AddText(str, Vector2(150, 375), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
+    str = "ENTER to pause";
+    HTP->AddText(str, Vector2(150, 475), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
+    str = "PRESS ANY KEY TO BACK TO MAIN MENU";
+    HTP->AddText(str, Vector2(150, 625), Vector2(std::strlen(str) * 25, 30), 40, true, 2000);
+
+}
+
+void Game::LoadCredits() {
+    auto credits = new UIScreen(this, "../Assets/Fonts/SMB.ttf");
+    SetBackgroundImage("../Assets/Sprites/Fundo-tijolos.png", Vector2(0,0), Vector2(mWindowWidth, mWindowHeight));
+    auto str = "CREDITS";
+    credits->AddText(str, Vector2(mWindowWidth/2 - std::strlen(str) * 25.0f/2, 25), Vector2(std::strlen(str) * 25, 50), 40, false, 2000, Color::Yellow);
+    str = "Game made by:";
+    credits->AddText(str, Vector2(150, 150), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
+    str = "- Felipe Lopes Gomide";
+    credits->AddText(str, Vector2(150, 250), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
+    str = "- João Victor Evangelista Cruz";
+    credits->AddText(str, Vector2(150, 350), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
+    str = "- Marcos Daniel Souza Neto";
+    credits->AddText(str, Vector2(150, 450), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
+    str = "PRESS ANY KEY TO BACK TO MAIN MENU";
+    credits->AddText(str, Vector2(150, 625), Vector2(std::strlen(str) * 25, 30), 40, true, 2000);
 }
 
 void Game::LoadLevel(const std::string& levelName, const int levelWidth, const int levelHeight)
@@ -450,7 +494,7 @@ void Game::ProcessInput()
             case SDL_KEYDOWN:
                 // Handle key press for UI screens
                 if (!mUIStack.empty()) {
-                    if (mGameScene == GameScene::MainMenu or mGameScene == GameScene::GameOver)
+                    if (mGameScene == GameScene::MainMenu || mGameScene == GameScene::GameOver || mGameScene == GameScene::HowToPlay || mGameScene == GameScene::Credits)
                         mUIStack.back()->HandleKeyPress(event.key.keysym.sym);
                 }
 
@@ -529,7 +573,7 @@ void Game::HandleKeyPressActors(const int key, const bool isPressed)
 void Game::TogglePause()
 {
 
-    if (mGameScene != GameScene::MainMenu and mGameScene != GameScene::GameOver)
+    if (mGameScene != GameScene::MainMenu and mGameScene != GameScene::GameOver and mGameScene != GameScene::HowToPlay and mGameScene != GameScene::Credits)
     {
         if (mGamePlayState == GamePlayState::Playing)
         {
@@ -618,12 +662,10 @@ void Game::UpdateGame()
 
     UpdateSceneManager(deltaTime);
 
-    if (mGameScene != GameScene::MainMenu and mGameScene != GameScene::GameOver and mGamePlayState == GamePlayState::Playing)
+    if (mGameScene != GameScene::MainMenu and mGameScene != GameScene::GameOver and mGameScene != GameScene::HowToPlay and mGameScene != GameScene::Credits and mGamePlayState == GamePlayState::Playing)
         UpdateLevelTime(deltaTime);
 
     ChangeRound();
-    //mEnemiesAlive = 1; //Teste
-    //SDL_Log("Enemies Alive: %d", mEnemiesAlive);
 }
 
 void Game::UpdateSceneManager(float deltaTime)

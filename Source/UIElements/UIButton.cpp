@@ -11,7 +11,7 @@ UIButton::UIButton(const std::string& text, class UIFont* font, std::function<vo
         :UIElement(pos, size, color)
         ,mOnClick(onClick)
         ,mHighlighted(false)
-        ,mText(text, font, pointSize, wrapLength, textPos, textSize, textColor)
+        ,mText(text, font, pointSize, wrapLength, textPos, textSize, textColor, true)
 {
 
 }
@@ -22,24 +22,10 @@ UIButton::~UIButton()
 }
 
 
-void UIButton::Draw(SDL_Renderer *renderer, const Vector2 &screenPos)
+void UIButton::Draw(SDL_Renderer *renderer, const Vector2 &screenPos, Uint8 alpha)
 {
-    
-    SDL_Rect titleQuad{
-        .x = static_cast<int>(mPosition.x + screenPos.x),
-        .y = static_cast<int>(mPosition.y + screenPos.y),
-        .w = static_cast<int>(mSize.x),
-        .h = static_cast<int>(mSize.y),
-    };
-
-    if (mHighlighted) SDL_SetRenderDrawColor(renderer, 200, 100, 0, 255);
-    else SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-    SDL_RenderFillRect(renderer, &titleQuad);
-
-    auto size= mText.GetSize();
-    size.x *= 0.25;
-    size.y *= 0.5;
-    mText.Draw(renderer,  mPosition + size);
+    const Vector2 posText = screenPos + mPosition; //+ mSize * 0.5f - mText.GetSize() * 0.5f;
+    mHighlighted ? mText.Draw(renderer, posText, alpha) : mText.Draw(renderer, posText, 255);
 }
 
 void UIButton::OnClick()
