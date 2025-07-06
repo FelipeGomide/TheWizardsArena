@@ -27,9 +27,6 @@ public:
 
 private:
     // HUD elements
-    //UIText* mScoreCounter;
-    //UIText* mLevelName;
-    //UIText* mLivesCount;
-    //UIText* mTimeText;
-    UIText* mHealthCount;
+    UIImage** mHealth;
+    UIImage** mLost;
 };

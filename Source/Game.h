@@ -105,7 +105,7 @@ public:
 
     void ToggleDebug(){mDebugMode = !mDebugMode;};
 
-    SDL_Renderer* getRenderer() { return mRenderer; }
+    SDL_Renderer* GetRenderer() { return mRenderer; }
 
     // Game-specific
     class Player* GetPlayer() { return mPlayer; }
