@@ -25,7 +25,7 @@ public:
 
     // Set the name of the button
     void SetText(const std::string& text);
-    void Draw(SDL_Renderer* renderer, const Vector2 &screenPos) override;
+    void Draw(SDL_Renderer* renderer, const Vector2 &screenPos, Uint8 alpha);
 
     void SetHighlighted(bool sel) { mHighlighted = sel; }
     bool GetHighlighted() const { return mHighlighted; }

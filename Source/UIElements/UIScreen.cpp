@@ -38,8 +38,9 @@ UIScreen::~UIScreen()
 
 void UIScreen::Update(float deltaTime)
 {
-	float t = SDL_GetTicks() / 300.0f;
-    float alphaFLoat = (sinf(t) * 0.5f + 0.5f) * 255.0f;
+	//float t = SDL_GetTicks() / 300.0f;
+    mTimePassed += deltaTime * 5;
+    float alphaFLoat = (sinf(mTimePassed) * 0.5f + 0.5f) * 255.0f;
     mAlpha = static_cast<Uint8>(alphaFLoat);
 }
 
@@ -48,9 +49,8 @@ void UIScreen::Draw(SDL_Renderer *renderer)
     for (auto& text: mTexts)
         text->Draw(renderer, mPos, mAlpha);
 
-    int i= 0;
     for (auto& button: mButtons) {
-        button->Draw(renderer, mPos);
+        button-> Draw(renderer, mPos, mAlpha);
     }
 
     for (auto& image : mImages)
@@ -64,21 +64,40 @@ void UIScreen::ProcessInput(const uint8_t* keys)
 
 void UIScreen::HandleKeyPress(int key)
 {
-    // if (mButtons.size() == 0) return;
-    //
-    // mButtons[mSelectedButtonIndex]->SetHighlighted(false);
-    // if (key == SDLK_w) mSelectedButtonIndex ++;
-    // if (key == SDLK_s) mSelectedButtonIndex --;
-    // mSelectedButtonIndex = (mSelectedButtonIndex + mButtons.size()) % mButtons.size();
-    //
-    // mButtons[mSelectedButtonIndex]->SetHighlighted(true);
-    //
-    // if (key == SDLK_RETURN)
-    //     mButtons[mSelectedButtonIndex]->OnClick();
-    if(Game::GameScene::GameOver == mGame->GetCurrentGameScene()){
+    if (mGame->GetGameScene() == Game::GameScene::MainMenu) {
+        if (key == SDLK_a) {
+            mButtons[mSelectedButtonIndex]->SetHighlighted(false);
+            mSelectedButtonIndex--;
+            mTimePassed = 0.f;
+            if (mSelectedButtonIndex < 0)
+                mSelectedButtonIndex = mButtons.size() - 1;
+            mButtons[mSelectedButtonIndex]->SetHighlighted(true);
+        }
+
+        if (key == SDLK_d) {
+            mButtons[mSelectedButtonIndex]->SetHighlighted(false);
+            mSelectedButtonIndex++;
+            mTimePassed = 0.f;
+            if (mSelectedButtonIndex >= mButtons.size())
+                mSelectedButtonIndex = 0;
+            mButtons[mSelectedButtonIndex]->SetHighlighted(true);
+        }
+
+        if (key == SDLK_RETURN) {
+            if (mSelectedButtonIndex >= 0 && mSelectedButtonIndex < mButtons.size())
+                mButtons[mSelectedButtonIndex]->OnClick();
+        }
+    }
+
+    else if(mGame->GetGameScene() == Game::GameScene::GameOver){
         mGame->SetGameScene(Game::GameScene::MainMenu, 3.0f);
-    } else if (Game::GameScene::MainMenu == mGame->GetCurrentGameScene()){
-        mGame->SetGameScene(Game::GameScene::Level1, 3.0f);
+    }
+    else if (mGame->GetGameScene() == Game::GameScene::HowToPlay){
+        SDL_Log("How to play");
+        mGame->SetGameScene(Game::GameScene::MainMenu, 3.0f);
+    }
+    else if (mGame->GetGameScene() == Game::GameScene::Credits){
+        mGame->SetGameScene(Game::GameScene::MainMenu, 3.0f);
     }
     else SDL_Log("Default screen to go not setted!");
 }
@@ -88,16 +107,16 @@ void UIScreen::Close()
 	mState = UIState::Closing;
 }
 
-UIText* UIScreen::AddText(const std::string &name, const Vector2 &pos, const Vector2 &dims, const int pointSize, bool fade, const int unsigned wrapLength)
+UIText* UIScreen::AddText(const std::string &name, const Vector2 &pos, const Vector2 &dims, const int pointSize, bool fade, const int unsigned wrapLength, const Vector3 &color)
 {
-    UIText* t = new UIText(name, mFont, pointSize, wrapLength, pos, dims, Color::White, fade);
+    UIText* t = new UIText(name, mFont, pointSize, wrapLength, pos, dims, color, fade);
     mTexts.push_back(t);
     return t;
 }
 
 UIButton* UIScreen::AddButton(const std::string& name, const Vector2 &pos, const Vector2& dims, std::function<void()> onClick)
 {
-    UIButton* button = new UIButton(name, mFont, onClick, pos, dims,Vector3(200, 100, 0));
+    auto* button = new UIButton(name, mFont, onClick, pos, dims,Vector3(200, 100, 0), 16, dims.x, Vector2::Zero, dims);
     mButtons.push_back(button);
 
     if (mButtons.size() == 1)
