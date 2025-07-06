@@ -190,7 +190,7 @@ void Game::ChangeScene()
         SetBackgroundImage("../Assets/Sprites/background.png", Vector2(TILE_SIZE,TILE_SIZE), Vector2((mWindowWidth-(3*TILE_SIZE))*SIZE_MULTIPLIER, (mWindowHeight-(3*TILE_SIZE))*SIZE_MULTIPLIER));
 
         // Initialize actors
-        LoadLevel("../Assets/Levels/Round_1.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
+        LoadLevel("../Assets/Levels/1.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
     }
     else if (mNextScene == GameScene::Level2)
     {
@@ -204,7 +204,7 @@ void Game::ChangeScene()
 
 
         // Initialize actors
-        LoadLevel("../Assets/Levels/Round_2.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
+        LoadLevel("../Assets/Levels/2.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
     }
     else if (mNextScene == GameScene::Level3)
     {
@@ -218,7 +218,7 @@ void Game::ChangeScene()
 
 
         // Initialize actors
-        LoadLevel("../Assets/Levels/Round_3.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
+        LoadLevel("../Assets/Levels/3.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
     }
     else if (mNextScene == GameScene::Level4)
     {
@@ -232,7 +232,7 @@ void Game::ChangeScene()
 
 
         // Initialize actors
-        LoadLevel("../Assets/Levels/Round_4.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
+        LoadLevel("../Assets/Levels/4.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
     }
     else if (mNextScene == GameScene::Level5)
     {
@@ -245,7 +245,7 @@ void Game::ChangeScene()
         SetBackgroundImage("../Assets/Sprites/background.png", Vector2(TILE_SIZE,TILE_SIZE), Vector2((mWindowWidth-(3*TILE_SIZE))*SIZE_MULTIPLIER, (mWindowHeight-(3*TILE_SIZE))*SIZE_MULTIPLIER));
 
         // Initialize actors
-        LoadLevel("../Assets/Levels/Round_5.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
+        LoadLevel("../Assets/Levels/5.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
     }
     else if (mNextScene == GameScene::GameOver){
         mBackgroundColor.Set(107.0f, 140.0f, 255.0f);
@@ -364,10 +364,10 @@ void Game::BuildLevel(int** levelData, int width, int height)
 
     // Const map to convert tile ID to block type
     const std::map<int, const std::string> tileMap = {
-            {0, "../Assets/Sprites/Blocks/Plataforma-madeira.png"},
-            {1, "../Assets/Sprites/Blocks/Tijolo-pedra-2.jpg"},
-            {2, "../Assets/Sprites/Blocks/Tijolo-marrom.jpg"},
-            {4, "../Assets/Sprites/Blocks/Tijolo-pedra-1.jpg"},
+        {0, "../Assets/Sprites/Blocks/CenterBrick.png"},
+        {1, "../Assets/Sprites/Blocks/LeftBrick.png"},
+        {2, "../Assets/Sprites/Blocks/RightBrick.png"},
+        {3, "../Assets/Sprites/Blocks/Platform.png"}
     };
     mEnemiesAlive = 0;
 
@@ -377,11 +377,11 @@ void Game::BuildLevel(int** levelData, int width, int height)
         {
             int tile = levelData[y][x];
 
-            if (tile == 3) { //Spikes
+            if (tile == 4) { //Spikes
                 Spikes* spikes = new Spikes(this);
                 spikes->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
             }
-            else if(tile == 5) // Player
+            else if(tile == 7) // Player
             {
                 mPlayer = new Warrior(this);
                 mPlayer->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
@@ -394,7 +394,7 @@ void Game::BuildLevel(int** levelData, int width, int height)
                 goblin->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
                 mEnemiesAlive += 1;
             }
-            else if(tile == 7) // Ghost
+            else if(tile == 5) // Ghost
             {
                 auto* ghost = new Ghost(this, std::vector<Vector2>{Vector2(x * TILE_SIZE -50, y * TILE_SIZE), Vector2(x*TILE_SIZE+50, y*TILE_SIZE)});
                 ghost->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
@@ -408,6 +408,10 @@ void Game::BuildLevel(int** levelData, int width, int height)
                     // Create a block actor
                     Block* block = new Block(this, it->second);
                     block->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
+
+                    if (tile == 3) {
+                        block->GetComponent<AABBColliderComponent>()->SetLayer(ColliderLayer::Platform);
+                    }
                 }
             }
         }

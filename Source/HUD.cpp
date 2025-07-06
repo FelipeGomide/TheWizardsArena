@@ -4,24 +4,22 @@
 
 #include "HUD.h"
 #include "Game.h"
+#include "UIElements/UIScreen.h"
 #include "UIElements/UIText.h"
 
 HUD::HUD(class Game* game, const std::string& fontName)
     :UIScreen(game, fontName)
 {
-    int leftX = WORD_OFFSET * 2;  // Left margin
-    int centerX = mGame->GetWindowWidth() / 2 - CHAR_WIDTH * 2;
-    int rightX = mGame->GetWindowWidth() - 5*CHAR_WIDTH;  // Right margin
+    mHealth = new UIImage*[10];
+    mLost = new UIImage*[10];
 
-    // AddText("TIME", Vector2(rightX, HUD_POS_Y), Vector2(CHAR_WIDTH * 4, WORD_HEIGHT), POINT_SIZE);
-    // mTimeText = AddText("400", Vector2(rightX, HUD_POS_Y + WORD_HEIGHT), Vector2(CHAR_WIDTH * 3, WORD_HEIGHT), POINT_SIZE);
-    //
-    // AddText("WORLD", Vector2(centerX, HUD_POS_Y), Vector2(CHAR_WIDTH * 5, WORD_HEIGHT), POINT_SIZE);
-    // mLevelName = AddText("1-1", Vector2(centerX, HUD_POS_Y + WORD_HEIGHT), Vector2(CHAR_WIDTH * 3, WORD_HEIGHT), POINT_SIZE);
-    // //AddText("MARIO", Vector2(leftX, HUD_POS_Y), Vector2(CHAR_WIDTH * 5, WORD_HEIGHT), POINT_SIZE);
-    // mScoreCounter = AddText("000000", Vector2(leftX, HUD_POS_Y + WORD_HEIGHT), Vector2(CHAR_WIDTH * 6, WORD_HEIGHT), POINT_SIZE);
+    for (int i = 0; i < 10; i++) {
+        mHealth[i] = AddImage("../Assets/Sprites/Hearth_filled.png", Vector2((CHAR_WIDTH) + CHAR_WIDTH * i, WORD_OFFSET), Vector2(CHAR_WIDTH, WORD_HEIGHT));
+    }
 
-    mHealthCount = AddText("♡♡♡♡♡♡♡♡♡♡", Vector2(leftX, HUD_POS_Y), Vector2(CHAR_WIDTH * 10, WORD_HEIGHT), POINT_SIZE);
+    for (int i = 0; i < 10; i++) {
+        mLost[i] = AddImage("../Assets/Sprites/Hearth_lost.png", Vector2(-500, WORD_OFFSET), Vector2(CHAR_WIDTH, WORD_HEIGHT));
+    }
 }
 
 HUD::~HUD()
@@ -31,23 +29,8 @@ HUD::~HUD()
 
 void HUD::SetHealth(int health) const
 {
-    std::string text = "";
-
-    for (int i = 0; i < health; i++) {
-        text += "♡";
+    for (int i = health; i < 10; i++) {
+        mHealth[i]->SetPosition(Vector2(-500, -500));
+        mLost[i]->SetPosition(Vector2((CHAR_WIDTH) + CHAR_WIDTH * i, WORD_OFFSET));
     }
-    mHealthCount->SetText(text);
-    mHealthCount->SetSize(Vector2( CHAR_WIDTH * health, WORD_HEIGHT));
 }
-
-// void HUD::SetTime(int time)
-// {
-//     mTimeText->SetText(std::to_string(time));
-//
-//     // mTimeText->SetPosition()
-// }
-//
-// void HUD::SetLevelName(const std::string &levelName)
-// {
-//     mLevelName->SetText(levelName);
-// }
