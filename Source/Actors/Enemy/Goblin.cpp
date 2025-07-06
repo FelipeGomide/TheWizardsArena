@@ -1,4 +1,4 @@
-#include "../Enemy/Goblin.h"
+#include "Goblin.h"
 #include "../../Game.h"
 #include "../Player/Player.h"
 #include "../../Components/DrawComponents/DrawPolygonComponent.h"
@@ -147,8 +147,6 @@ void Goblin::PersueAction(float deltaTime){
 void Goblin::AttackAction(float deltaTime){
     PersueAction(deltaTime);
 }
-
-const float GRAVITY = 2000.0f;
 
 void Goblin::Jump(){
     if(not mIsOnGround) return;

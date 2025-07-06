@@ -34,6 +34,8 @@ add_executable(${PROJECT_NAME}
         Source/Actors/Enemy/Ghost.h
         Source/Actors/Enemy/Goblin.cpp
         Source/Actors/Enemy/Goblin.h
+        Source/Actors/Enemy/Wizard.cpp
+        Source/Actors/Enemy/Wizard.h
         Source/Actors/Player/Player.h
         Source/Actors/Player/Player.cpp
         Source/Actors/Player/Warrior.h

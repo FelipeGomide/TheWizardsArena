@@ -28,6 +28,7 @@
 #include "Actors/Spikes.h"
 #include "Actors/Enemy/Ghost.h"
 #include "Actors/Enemy/Goblin.h"
+#include "Actors/Enemy/Wizard.h"
 #include "Actors/Player/Warrior.h"
 #include "UIElements/UIScreen.h"
 #include "Components/DrawComponents/DrawComponent.h"
@@ -336,6 +337,12 @@ void Game::BuildLevel(int** levelData, int width, int height)
             if (tile == 4) { //Spikes
                 Spikes* spikes = new Spikes(this);
                 spikes->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
+            }
+            else if(tile == 6 /*8*/) // Wizard  
+            {
+                auto wizard = new Wizard(this, {Vector2(x*TILE_SIZE, y*TILE_SIZE)});
+                wizard->SetPosition(Vector2(x*TILE_SIZE, y*TILE_SIZE));
+                mEnemiesAlive += 1;
             }
             else if(tile == 7) // Player
             {

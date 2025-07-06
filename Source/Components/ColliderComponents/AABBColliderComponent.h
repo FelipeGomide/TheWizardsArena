@@ -19,7 +19,8 @@ enum class ColliderLayer
     Attack,
     Enemy,
     Spikes,
-    Platform
+    Platform,
+    Wizard
 };
 
 class AABBColliderComponent : public Component
@@ -30,8 +31,9 @@ public:
         {ColliderLayer::Player, {}},
         {ColliderLayer::Enemy,  {}},
         {ColliderLayer::Goblin,  {}},
+        {ColliderLayer::Wizard, {}},
         {ColliderLayer::Blocks, {ColliderLayer::Blocks}},
-        {ColliderLayer::Ghost, {ColliderLayer::Blocks, ColliderLayer::Goblin, ColliderLayer::Ghost}},
+        {ColliderLayer::Ghost, {ColliderLayer::Blocks, ColliderLayer::Goblin, ColliderLayer::Ghost, ColliderLayer::Platform}},
         {ColliderLayer::Attack, {ColliderLayer::Blocks, ColliderLayer::Player}},
         {ColliderLayer::Platform, {ColliderLayer::Blocks, ColliderLayer::Platform, ColliderLayer::Ghost}}
     };
