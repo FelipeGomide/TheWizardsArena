@@ -14,10 +14,16 @@
 SwordAttack::SwordAttack(class Game *game, class Player* owner, float deathTimer, Vector2 offset)
     : Projectile(game, owner, ProjectileType::MeleeProjectile, deathTimer)
 {
-    //mRigidBodyComponent = new RigidBodyComponent(this, 1, 0, false);
+    mRigidBodyComponent = new RigidBodyComponent(this, 1, 0, false);
 
-    mColliderComponent = new AABBColliderComponent(this, offset.x + 5, offset.y, 50*SIZE_MULTIPLIER, 45*SIZE_MULTIPLIER, ColliderLayer::Attack, false,
+    mColliderComponent = new AABBColliderComponent(this, 0, 0, 50*SIZE_MULTIPLIER, 45*SIZE_MULTIPLIER, ColliderLayer::Attack, false,
                                                    false);
+
+    mDrawComponent = new DrawAnimatedComponent(this, "../Assets/Sprites/Warrior/Slash.png", "../Assets/Sprites/Warrior/Slash.json");
+
+    mDrawComponent->AddAnimation("Attack", {0,1});
+    mDrawComponent->SetAnimFPS(10.0f);
+    mDrawComponent->SetAnimation("Attack");
 }
 
 void SwordAttack::OnHorizontalCollision(const float minOverlap, AABBColliderComponent *other) {
