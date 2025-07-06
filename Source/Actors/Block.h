@@ -10,7 +10,7 @@
 class Block : public Actor
 {
 public:
-    explicit Block(Game* game, const std::string &texturePath, const bool isStatic = true);
+    explicit Block(Game* game, const std::string &texturePath, const bool isStatic = true, const bool isPlatform = false);
 
     void SetPosition(const Vector2& position)
     {
@@ -22,8 +22,12 @@ public:
     void OnBump();
     void OnVerticalCollision(const float minOverlap, AABBColliderComponent* other) override;
 
+    bool IsPlatform() const{return mIsPlatform;};
+
 private:
     const int BUMP_FORCE = 200;
+
+    bool mIsPlatform = false;
 
     Vector2 mOriginalPosition;
 

@@ -18,7 +18,8 @@ enum class ColliderLayer
     Ghost,
     Attack,
     Enemy,
-    Spikes
+    Spikes,
+    Platform
 };
 
 class AABBColliderComponent : public Component
@@ -31,7 +32,8 @@ public:
         {ColliderLayer::Goblin,  {}},
         {ColliderLayer::Blocks, {ColliderLayer::Blocks}},
         {ColliderLayer::Ghost, {ColliderLayer::Blocks, ColliderLayer::Goblin, ColliderLayer::Ghost}},
-        {ColliderLayer::Attack, {ColliderLayer::Blocks, ColliderLayer::Player}}
+        {ColliderLayer::Attack, {ColliderLayer::Blocks, ColliderLayer::Player}},
+        {ColliderLayer::Platform, {ColliderLayer::Blocks, ColliderLayer::Platform, ColliderLayer::Ghost}}
     };
 
     AABBColliderComponent(class Actor* owner, int dx, int dy, int w, int h,
@@ -49,6 +51,7 @@ public:
     Vector2 GetMax() const;
     Vector2 GetCenter() const;
     ColliderLayer GetLayer() const { return mLayer; }
+    void SetLayer(ColliderLayer layer) { mLayer = layer; }
 
 protected:
     float GetMinVerticalOverlap(AABBColliderComponent* b) const;

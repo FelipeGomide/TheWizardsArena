@@ -364,6 +364,10 @@ void Game::BuildLevel(int** levelData, int width, int height)
                     // Create a block actor
                     Block* block = new Block(this, it->second);
                     block->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
+
+                    if (tile == 3) {
+                        block->GetComponent<AABBColliderComponent>()->SetLayer(ColliderLayer::Platform);
+                    }
                 }
             }
         }
