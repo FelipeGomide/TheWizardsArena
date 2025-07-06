@@ -1,0 +1,36 @@
+{ "frames": [
+   {
+    "filename": "Slash 0.ase",
+    "frame": { "x": 0, "y": 0, "w": 50, "h": 45 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 45 },
+    "sourceSize": { "w": 50, "h": 45 },
+    "duration": 300
+   },
+   {
+    "filename": "Slash 1.ase",
+    "frame": { "x": 50, "y": 0, "w": 50, "h": 45 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 45 },
+    "sourceSize": { "w": 50, "h": 45 },
+    "duration": 300
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.x-dev",
+  "image": "Slash.png",
+  "format": "RGBA8888",
+  "size": { "w": 100, "h": 45 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

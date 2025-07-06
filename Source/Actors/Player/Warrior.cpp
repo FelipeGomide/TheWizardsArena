@@ -100,11 +100,12 @@ void Warrior::OnUpdate(float deltaTime)
     }
 
     if (mAttackEffectTimer > 0.0f) {
+        mAttackProjectile->SetRotation(mRotation);
         if (mRotation != Math::Pi) {
-            mAttackProjectile->SetPosition(GetPosition());
+            mAttackProjectile->SetPosition(GetPosition() + Vector2(100, 0));
         } else {
-            auto xOffset = (mColliderComponent->GetMax() - mColliderComponent->GetMin()).x;
-            mAttackProjectile->SetPosition(GetPosition() - Vector2(xOffset*3, 0));
+            //auto xOffset = (mColliderComponent->GetMax() - mColliderComponent->GetMin()).x;
+            mAttackProjectile->SetPosition(GetPosition() - Vector2(30, 0));
         }
     }
 

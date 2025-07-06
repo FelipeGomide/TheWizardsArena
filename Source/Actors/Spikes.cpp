@@ -11,7 +11,7 @@
 Spikes::Spikes(Game* game)
         :Actor(game)
 {
-    new DrawSpriteComponent(this, "../Assets/Sprites/Blocks/Espinhos.png", Game::TILE_SIZE, Game::TILE_SIZE, 10);
+    new DrawSpriteComponent(this, "../Assets/Sprites/Blocks/Spikes.png", Game::TILE_SIZE, Game::TILE_SIZE, 10);
     mColliderComponent = new AABBColliderComponent(this, 0, 0, Game::TILE_SIZE, Game::TILE_SIZE, ColliderLayer::Spikes, true);
     mRigidBodyComponent = new RigidBodyComponent(this, 1.0f, 0.0f, false);
 }
