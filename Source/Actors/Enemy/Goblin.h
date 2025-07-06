@@ -32,7 +32,7 @@ private:
     float mStuckTimer = 0;
     const float mStuckInterval = 1;
     Vector2 mLastPosition;
-
+ 
     void HandleTransition(float);
     void PatrolAction(float);
     void PersueAction(float);

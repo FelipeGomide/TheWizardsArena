@@ -5,8 +5,7 @@
 #include "../../Components/DrawComponents/DrawAnimatedComponent.h"
 #include "../../Components/AI/SteeringBehavior.h"
 #include "../../Constants.h"
-
-#include <iostream>
+#include "../Puff.h"
 
 Ghost::Ghost(Game* game, std::vector<Vector2> patrolPath) :
     Actor(game), mPatrolPath(patrolPath), mTimerPersueSound(3) {
@@ -77,12 +76,15 @@ void Ghost::PersueAction(){
 }
 
 void Ghost::AttackAction(){
-    auto force = SteeringBehavior::Arrive(
-        GetPosition(), mGame->GetPlayer()->GetPosition(), mRigidBodyComponent->GetVelocity(),
-        Game::TILE_SIZE * 0.1f, mMaxvelocity
-    );
-
-    mRigidBodyComponent->ApplyForce(force * 70);
+    // auto force = SteeringBehavior::Arrive(
+    //     GetPosition(), mGame->GetPlayer()->GetPosition(), mRigidBodyComponent->GetVelocity(),
+    //     Game::TILE_SIZE * 0.1f, mMaxvelocity
+    // );
+    
+    auto playerPosition = mGame->GetPlayer()->GetPosition();
+    auto myVelocity = mRigidBodyComponent->GetVelocity();
+    auto force = SteeringBehavior::Seek(GetPosition(), playerPosition, myVelocity, mMaxvelocity);
+    mRigidBodyComponent->ApplyForce(force * 100);
 }
 
 void Ghost::OnUpdate(float deltaTime){
@@ -130,15 +132,12 @@ void Ghost::OnHorizontalCollision(const float minOverlap, AABBColliderComponent*
     if (other->GetLayer() == ColliderLayer::Attack) {
         Kill();
     }
-
-    if (other->GetLayer() == ColliderLayer::Attack) {
-        Kill();
-    }
 }
 
 void Ghost::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other){
+
     if(other->GetLayer() == ColliderLayer::Player){
-        if(minOverlap < 0){
+        if(minOverlap > 0){
             mGame->GetPlayer()->OnVerticalCollision(-minOverlap, mColliderComponent);
         }
     }
@@ -152,5 +151,7 @@ void Ghost::Kill(){
     if (mState != ActorState::Destroy) {
         mState = ActorState::Destroy;
         mGame->DecreaseEnemiesAlive();
+
+        new Puff(mGame, GetPosition());
     }
 }

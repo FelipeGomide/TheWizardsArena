@@ -5,7 +5,7 @@
 #include "../../Components/DrawComponents/DrawAnimatedComponent.h"
 #include "../../Components/AI/SteeringBehavior.h"
 #include "../../Constants.h"
-#include <iostream>
+#include "../Puff.h"
 
 Goblin::Goblin(Game* game, std::vector<Vector2> patrolPath) :
     Actor(game), mPatrolPath(patrolPath) {
@@ -226,5 +226,6 @@ void Goblin::Kill(){
         std::string sound = "monster/pain"+std::to_string(number)+".wav";
         mGame->GetAudio()->PlaySound(sound);
         mGame->DecreaseEnemiesAlive();
+        new Puff(mGame, GetPosition());
     }
 }

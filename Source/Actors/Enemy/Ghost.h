@@ -23,7 +23,7 @@ private:
 
     float mTilesRadiusPerception = 10;
     float mTimerPersueSound;
-    float mMaxvelocity = 70;
+    float mMaxvelocity = 100;
 
     void HandleTransition();
     void PatrolAction();

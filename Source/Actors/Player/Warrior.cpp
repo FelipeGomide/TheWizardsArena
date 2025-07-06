@@ -173,6 +173,8 @@ void Warrior::Kill()
     // mGame->ResetGameScene(3.5f); // Reset the game scene after 3 seconds
 }
 
+
+#include <iostream>
 void Warrior::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other)
 {
     if (other->GetLayer() == ColliderLayer::Goblin or other->GetLayer() == ColliderLayer::Ghost)
@@ -180,12 +182,12 @@ void Warrior::OnHorizontalCollision(const float minOverlap, AABBColliderComponen
         if (mInvincibilityTimer <= 0)
         {
             TakeDamage();
-            if (minOverlap > 0.0f) {
-                mRigidBodyComponent->SetVelocity(Vector2(-600, -100));
-            }
-            else {
-                mRigidBodyComponent->SetVelocity(Vector2(600, -100));
-            }
+
+            auto curVelocity = mRigidBodyComponent->GetVelocity();
+            int direct = minOverlap > 0 ? +1 : -1;
+            curVelocity += Vector2(direct*mJumpSpeed/1.5f, mJumpSpeed/2.f);
+            
+            mRigidBodyComponent->SetVelocity(curVelocity);
         }
     }
 }
@@ -205,12 +207,10 @@ void Warrior::OnVerticalCollision(const float minOverlap, AABBColliderComponent*
             if (mInvincibilityTimer <= 0)
             {
                 TakeDamage();
-                if (minOverlap > 0.0f) {
-                    mRigidBodyComponent->SetVelocity(Vector2(-3000, mJumpSpeed));
-                }
-                else {
-                    mRigidBodyComponent->SetVelocity(Vector2(+3000, mJumpSpeed));
-                }
+                auto curVelocity = mRigidBodyComponent->GetVelocity();
+                int direct = minOverlap > 0 ? +1 : -1;
+                curVelocity += Vector2(direct*mJumpSpeed/1.5f, mJumpSpeed/2.f);
+                mRigidBodyComponent->SetVelocity(curVelocity);
             }
         }
     }

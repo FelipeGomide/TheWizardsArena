@@ -42,6 +42,8 @@ add_executable(${PROJECT_NAME}
         Source/Actors/Projectile.h
         Source/Actors/SwordAttack.cpp
         Source/Actors/SwordAttack.h
+        Source/Actors/Puff.cpp
+        Source/Actors/Puff.h
         Source/Components/ColliderComponents/AABBColliderComponent.cpp
         Source/Components/ColliderComponents/AABBColliderComponent.h
         Source/Components/DrawComponents/DrawAnimatedComponent.cpp

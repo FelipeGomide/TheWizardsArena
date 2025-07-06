@@ -11,13 +11,14 @@ struct SteeringBehavior {
     static Vector2 Arrive(Vector2 pos, Vector2 target, Vector2 vel, float slowingRadius, float maxSpeed){
         Vector2 toTarget = target - pos;
         float dist = toTarget.Length();
-        if (Math::NearZero(dist)) return Vector2::Zero;
 
         float desiredSpeed = (dist < slowingRadius)
             ? maxSpeed * (dist / slowingRadius)
             : maxSpeed;
 
         toTarget.Normalize();
+        if(desiredSpeed < 0.1) desiredSpeed = 0.1;
+
         Vector2 desired = toTarget * desiredSpeed;
         return desired - vel;
     }
