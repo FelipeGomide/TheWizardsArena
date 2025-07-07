@@ -372,8 +372,6 @@ void Game::BuildLevel(int** levelData, int width, int height)
     };
     mEnemiesAlive = 0;
 
-    std::vector<Vector2> possiblePlaces;
-
     for (int y = 0; y < LEVEL_HEIGHT; ++y)
     {
         for (int x = 0; x < LEVEL_WIDTH; ++x)
@@ -386,8 +384,7 @@ void Game::BuildLevel(int** levelData, int width, int height)
             }
             else if(tile == 8) // Wizard  
             {
-                possiblePlaces.push_back(Vector2(x*TILE_SIZE, y*TILE_SIZE));
-                auto wizard = new Wizard(this, possiblePlaces);
+                auto wizard = new Wizard(this, {Vector2(x*TILE_SIZE, y*TILE_SIZE)});
                 wizard->SetPosition(Vector2(x*TILE_SIZE, y*TILE_SIZE));
                 mEnemiesAlive += 1;
 
@@ -403,8 +400,6 @@ void Game::BuildLevel(int** levelData, int width, int height)
             }
             else if(tile == 6) // Goblin
             {
-                possiblePlaces.push_back(Vector2(x*TILE_SIZE, y*TILE_SIZE));
-                
                 auto* goblin = new Goblin(this, std::vector<Vector2>{Vector2(x * TILE_SIZE -50, y * TILE_SIZE), Vector2(x*TILE_SIZE+50, y*TILE_SIZE)});
                 goblin->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
                 mEnemiesAlive += 1;

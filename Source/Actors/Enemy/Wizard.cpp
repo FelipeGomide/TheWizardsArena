@@ -86,10 +86,10 @@ void Wizard::PatrolAction(float deltaTime){
     mCurTeleportTimer -= deltaTime;
     if(mCurTeleportTimer < 0){
         mCurTeleportTimer = mTeleportTimer;
-        new Puff(mGame, GetPosition());
-        auto nextPos = mPointsTeleportation[rand()%mPointsTeleportation.size()];
-        SetPosition(nextPos);
-        new Puff(mGame, nextPos);
+        // new Puff(mGame, GetPosition());
+        // auto nextPos = mPointsTeleportation[rand()%mPointsTeleportation.size()];
+        // SetPosition(nextPos);
+        // new Puff(mGame, nextPos);
     }
 
 }
@@ -146,9 +146,9 @@ void Wizard::AttackAction(float deltaTime){
 
 void Wizard::Jump(){
     if(not mIsOnGround) return;
-    auto vel = mRigidBodyComponent->GetVelocity();
-    mRigidBodyComponent->SetVelocity(Vector2(vel.x, -mJumpVelocity));
-    mIsOnGround = false;
+    // auto vel = mRigidBodyComponent->GetVelocity();
+    // mRigidBodyComponent->SetVelocity(Vector2(vel.x, -mJumpVelocity));
+    // mIsOnGround = false;
 }
 
 void Wizard::OnUpdate(float deltaTime) {
