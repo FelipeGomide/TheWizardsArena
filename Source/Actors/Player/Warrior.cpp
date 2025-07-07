@@ -12,7 +12,7 @@
 #include "../../Components/DrawComponents/DrawAnimatedComponent.h"
 #include "../../Game.h"
 
-Warrior::Warrior(Game *game, float forwardSpeed, float jumpSpeed)
+Warrior::Warrior(Game *game, float forwardSpeed, float jumpSpeed, int HP)
     : Player(game, WARRIOR_HP, forwardSpeed, jumpSpeed)
 {
     mRigidBodyComponent = new RigidBodyComponent(this, .5f, 5.0f);
@@ -29,6 +29,9 @@ Warrior::Warrior(Game *game, float forwardSpeed, float jumpSpeed)
 
     mDrawComponent->SetAnimation("Idle");
     mDrawComponent->SetAnimFPS(10.0f);
+
+    mHpCounter = HP;
+    mInvincibilityTimer = -1;
 
     // mAttackProjectile = new SwordAttack(mGame, 1.0f);
     // mAttackProjectile->SetState(ActorState::Paused);
@@ -182,6 +185,8 @@ void Warrior::OnHorizontalCollision(const float minOverlap, AABBColliderComponen
         or other->GetLayer() == ColliderLayer::Ghost 
         or other->GetLayer() == ColliderLayer::Wizard)
     {
+        SDL_Log("Collision with enemy!");
+        SDL_Log("%f", mInvincibilityTimer);
         if (mInvincibilityTimer <= 0)
         {
             TakeDamage();

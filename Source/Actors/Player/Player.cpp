@@ -152,6 +152,7 @@ void Player::Kill()
 void Player::TakeDamage() {
     mHpCounter -= 1;
     GetGame()->GetHUD()->SetHealth(mHpCounter);
+    GetGame()->SetHP(mHpCounter);
     if (mHpCounter <= 0) {
         Kill();
     }

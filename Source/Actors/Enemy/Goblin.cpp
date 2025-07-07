@@ -16,8 +16,8 @@ Goblin::Goblin(Game* game, std::vector<Vector2> patrolPath) :
     std::vector<Vector2> vertices = {Vector2(Game::TILE_SIZE/2, 0), Vector2(Game::TILE_SIZE, Game::TILE_SIZE), Vector2(0, Game::TILE_SIZE)};
     mDrawComponent = new DrawAnimatedComponent(
         this,
-        "../Assets/Sprites/Goblin/GoblinSpriteSheet.png",
-        "../Assets/Sprites/Goblin/GoblinSpriteSheet.json"
+        "../Assets/Sprites/Goblin/Goblin.png",
+        "../Assets/Sprites/Goblin/Goblin.json"
     );
 
     mDrawComponent->AddAnimation("walk", {0, 1, 2, 3});
