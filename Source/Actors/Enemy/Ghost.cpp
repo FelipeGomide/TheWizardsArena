@@ -130,10 +130,6 @@ void Ghost::OnHorizontalCollision(const float minOverlap, AABBColliderComponent*
     if (other->GetLayer() == ColliderLayer::Attack) {
         Kill();
     }
-
-    if (other->GetLayer() == ColliderLayer::Attack) {
-        Kill();
-    }
 }
 
 void Ghost::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other){

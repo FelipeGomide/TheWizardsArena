@@ -13,7 +13,7 @@ class Warrior : public Player
 public:
     static constexpr int WARRIOR_HP = 10;
 
-    explicit Warrior(Game* game, float forwardSpeed = 1500.0f, float jumpSpeed = -1500.0f);
+    explicit Warrior(Game* game, float forwardSpeed = 1500.0f, float jumpSpeed = -1500.0f, int HP = 10);
 
     void OnProcessInput(const Uint8* keyState) override;
     void OnUpdate(float deltaTime) override;

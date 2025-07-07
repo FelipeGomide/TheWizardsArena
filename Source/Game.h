@@ -118,6 +118,8 @@ public:
     // Game-specific
     class Player* GetPlayer() { return mPlayer; }
 
+    void SetHP(int hp) {mHP = hp;};
+
     class HUD* GetHUD() { return mHUD; }
 
     void SetGamePlayState(GamePlayState state) { mGamePlayState = state; }
@@ -193,6 +195,7 @@ private:
     float mGameTimer;
     int mGameTimeLimit;
     int mCoins=0;
+    int mHP = 10;
 
     SDL_Texture *mBackgroundTexture;
     Vector2 mBackgroundSize;

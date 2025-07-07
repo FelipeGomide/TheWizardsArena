@@ -383,10 +383,12 @@ void Game::BuildLevel(int** levelData, int width, int height)
             }
             else if(tile == 7) // Player
             {
-                mPlayer = new Warrior(this);
+                mPlayer = new Warrior(this, 1500, -1500, mHP);
                 mPlayer->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
 
                 mCameraPos = Vector2(x * TILE_SIZE, y * TILE_SIZE);
+
+                mHUD->SetHealth(mHP);
             }
             else if(tile == 6) // Goblin
             {
