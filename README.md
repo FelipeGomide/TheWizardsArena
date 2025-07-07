@@ -2,12 +2,11 @@
 
 # Screenshots
 
-<img src="https://github.com/user-attachments/assets/cb4fa35b-b95f-4b78-bb4a-51a6d4580312" width="500" title="Tela de Menu" alt="Tela de Menu"/>
-<img src="https://github.com/user-attachments/assets/e7a7c6ba-ddd0-4bee-9d32-fc15dbb801ad" width="500" title="Tela de Menu" alt="Tela de Menu"/>
-<img src="https://github.com/user-attachments/assets/963a4650-b899-4e87-960e-a50b24761e4e" width="500" title="Tela de Menu" alt="Tela de Menu"/>
-<img src="https://github.com/user-attachments/assets/3d2ee1b4-8f68-4a92-8946-a582b0a48099" width="500" title="Tela de Menu" alt="Tela de Menu"/>
-<img src="https://github.com/user-attachments/assets/56c92470-23d8-4c88-a3b2-74059a965701" width="500" title="Tela de Menu" alt="Tela de Menu"/>
-
+![Title](https://github.com/FelipeGomide/TheWizardsArena/blob/main/Assets/Screenshots/Title.png)
+![Controls](https://github.com/FelipeGomide/TheWizardsArena/blob/main/Assets/Screenshots/Controls.png)
+![Ingame](https://github.com/FelipeGomide/TheWizardsArena/blob/main/Assets/Screenshots/GhostAndSpikes.png)
+![Ingame](https://github.com/FelipeGomide/TheWizardsArena/blob/main/Assets/Screenshots/GoblinAndMage.png)
+![Lose Screen](https://github.com/FelipeGomide/TheWizardsArena/blob/main/Assets/Screenshots/Lose.png)
 
 # Descrição
   The Wizard's Arena é um jogo de plataforma e combate 2D, no estilo Castlevania e Hollow Night. No jogo, você controla um personagem que sofreu um feitiço de um mago e está sendo obrigado a lutar contra monstros para sobreviver.
