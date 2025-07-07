@@ -340,7 +340,7 @@ void Game::LoadCredits() {
     credits->AddText(str, Vector2(150, 250), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
     str = "- João Victor Evangelista Cruz";
     credits->AddText(str, Vector2(150, 350), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
-    str = "- Marcos Daniel Souza Neto";
+    str = "- Marcos Daniel Souza Netto";
     credits->AddText(str, Vector2(150, 450), Vector2(std::strlen(str) * 25, 30), 40, false, 2000, Color::Yellow);
     str = "PRESS ANY KEY TO BACK TO MAIN MENU";
     credits->AddText(str, Vector2(150, 625), Vector2(std::strlen(str) * 25, 30), 40, true, 2000);
@@ -372,6 +372,8 @@ void Game::BuildLevel(int** levelData, int width, int height)
     };
     mEnemiesAlive = 0;
 
+    std::vector<Vector2> possiblePlaces;
+
     for (int y = 0; y < LEVEL_HEIGHT; ++y)
     {
         for (int x = 0; x < LEVEL_WIDTH; ++x)
@@ -382,11 +384,13 @@ void Game::BuildLevel(int** levelData, int width, int height)
                 Spikes* spikes = new Spikes(this);
                 spikes->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
             }
-            else if(tile == 6 /*8*/) // Wizard  
+            else if(tile == 8) // Wizard  
             {
-                auto wizard = new Wizard(this, {Vector2(x*TILE_SIZE, y*TILE_SIZE)});
+                possiblePlaces.push_back(Vector2(x*TILE_SIZE, y*TILE_SIZE));
+                auto wizard = new Wizard(this, possiblePlaces);
                 wizard->SetPosition(Vector2(x*TILE_SIZE, y*TILE_SIZE));
                 mEnemiesAlive += 1;
+
             }
             else if(tile == 7) // Player
             {
@@ -397,6 +401,8 @@ void Game::BuildLevel(int** levelData, int width, int height)
             }
             else if(tile == 6) // Goblin
             {
+                possiblePlaces.push_back(Vector2(x*TILE_SIZE, y*TILE_SIZE));
+                
                 auto* goblin = new Goblin(this, std::vector<Vector2>{Vector2(x * TILE_SIZE -50, y * TILE_SIZE), Vector2(x*TILE_SIZE+50, y*TILE_SIZE)});
                 goblin->SetPosition(Vector2(x * TILE_SIZE, y * TILE_SIZE));
                 mEnemiesAlive += 1;

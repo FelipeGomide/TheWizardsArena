@@ -4,7 +4,7 @@
 
 class Wizard : public Actor {
 public:
-    explicit Wizard(class Game* game, std::vector<Vector2> pointsTeleport, float teleportTimer=3.f);
+    explicit Wizard(class Game* game, std::vector<Vector2> pointsTeleport, float teleportTimer=3.f, float attackTimer=1.f, float attackCoolDown=1.f);
 
     void OnUpdate(float deltaTime) override;
     void OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other) override;
@@ -18,6 +18,7 @@ private:
 
     States mCurrentState = States::Patrol;
     std::vector<Vector2> mPointsTeleportation;
+    std::vector<Vector2> mPointsAttack;
 
     const float mForwardSpeed = 1000.0f;
 
@@ -27,6 +28,15 @@ private:
     const float GRAVITY = 2000;
 
     const float mTeleportTimer;
+    float mCurTeleportTimer;
+
+    const float mAttackTimer;
+    float mCurAttackTimer;
+
+    const float mAttackCoolDown;
+    float mCurAttackCoolDown;
+
+    bool mAlertAttack;
 
     void HandleTransition(float);
     void PatrolAction(float);

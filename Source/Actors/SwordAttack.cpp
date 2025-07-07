@@ -14,7 +14,7 @@
 SwordAttack::SwordAttack(class Game *game, class Player* owner, float deathTimer, Vector2 offset)
     : Projectile(game, owner, ProjectileType::MeleeProjectile, deathTimer)
 {
-    mRigidBodyComponent = new RigidBodyComponent(this, 1, 0, false);
+    mRigidBodyComponent = new RigidBodyComponent(this, 0, 0, false);
 
     mColliderComponent = new AABBColliderComponent(this, 0, 0, 50*SIZE_MULTIPLIER, 45*SIZE_MULTIPLIER, ColliderLayer::Attack, false,
                                                    false);

@@ -20,7 +20,9 @@ enum class ColliderLayer
     Enemy,
     Spikes,
     Platform,
-    Wizard
+    Wizard,
+    Explosion,
+    None
 };
 
 class AABBColliderComponent : public Component
@@ -28,14 +30,28 @@ class AABBColliderComponent : public Component
 public:
     // Collider ignore map
     const std::map<ColliderLayer, const std::set<ColliderLayer>> ColliderIgnoreMap = {
-        {ColliderLayer::Player, {}},
-        {ColliderLayer::Enemy,  {}},
-        {ColliderLayer::Goblin,  {}},
-        {ColliderLayer::Wizard, {}},
-        {ColliderLayer::Blocks, {ColliderLayer::Blocks}},
-        {ColliderLayer::Ghost, {ColliderLayer::Blocks, ColliderLayer::Goblin, ColliderLayer::Ghost, ColliderLayer::Platform}},
-        {ColliderLayer::Attack, {ColliderLayer::Blocks, ColliderLayer::Player}},
-        {ColliderLayer::Platform, {ColliderLayer::Blocks, ColliderLayer::Platform, ColliderLayer::Ghost}}
+        {ColliderLayer::Player, {ColliderLayer::None}},
+        {ColliderLayer::Enemy,  {ColliderLayer::None}},
+        {ColliderLayer::Goblin,  {ColliderLayer::None}},
+        {ColliderLayer::Wizard, {ColliderLayer::None}},
+        {ColliderLayer::Blocks, {ColliderLayer::None, ColliderLayer::Blocks}},
+        {ColliderLayer::Ghost, {ColliderLayer::None, ColliderLayer::Blocks, ColliderLayer::Goblin, ColliderLayer::Ghost, ColliderLayer::Platform, ColliderLayer::Explosion}},
+        {ColliderLayer::Attack, {ColliderLayer::None, ColliderLayer::Blocks, ColliderLayer::Player}},
+        {ColliderLayer::Platform, {ColliderLayer::None, ColliderLayer::Blocks, ColliderLayer::Platform, ColliderLayer::Ghost}},
+        {ColliderLayer::Explosion, {ColliderLayer::None, ColliderLayer::Blocks, ColliderLayer::Explosion, ColliderLayer::Ghost, ColliderLayer::Wizard, ColliderLayer::Goblin, ColliderLayer::Platform}},
+        {ColliderLayer::None, {
+            ColliderLayer::Player,
+            ColliderLayer::Goblin,
+            ColliderLayer::Blocks,
+            ColliderLayer::Ghost,
+            ColliderLayer::Attack,
+            ColliderLayer::Enemy,
+            ColliderLayer::Spikes,
+            ColliderLayer::Platform,
+            ColliderLayer::Wizard,
+            ColliderLayer::Explosion,
+            ColliderLayer::None,
+        }}
     };
 
     AABBColliderComponent(class Actor* owner, int dx, int dy, int w, int h,

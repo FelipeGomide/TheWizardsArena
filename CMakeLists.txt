@@ -42,6 +42,8 @@ add_executable(${PROJECT_NAME}
         Source/Actors/Player/Warrior.cpp
         Source/Actors/Projectile.cpp
         Source/Actors/Projectile.h
+        Source/Actors/Explosion.cpp
+        Source/Actors/Explosion.h
         Source/Actors/SwordAttack.cpp
         Source/Actors/SwordAttack.h
         Source/Actors/Puff.cpp

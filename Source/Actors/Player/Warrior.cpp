@@ -178,7 +178,9 @@ void Warrior::Kill()
 #include <iostream>
 void Warrior::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other)
 {
-    if (other->GetLayer() == ColliderLayer::Goblin or other->GetLayer() == ColliderLayer::Ghost)
+    if (other->GetLayer() == ColliderLayer::Goblin 
+        or other->GetLayer() == ColliderLayer::Ghost 
+        or other->GetLayer() == ColliderLayer::Wizard)
     {
         if (mInvincibilityTimer <= 0)
         {
@@ -191,11 +193,21 @@ void Warrior::OnHorizontalCollision(const float minOverlap, AABBColliderComponen
             mRigidBodyComponent->SetVelocity(curVelocity);
         }
     }
+    else if (other->GetLayer() == ColliderLayer::Explosion){
+        if (mInvincibilityTimer <= 0)
+        {
+            other->SetEnabled(false);
+            other->SetLayer(ColliderLayer::None);
+            TakeDamage();
+        }
+    }
 }
 
 void Warrior::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other)
 {
-    if (other->GetLayer() == ColliderLayer::Goblin || other->GetLayer() == ColliderLayer::Ghost)
+    if (other->GetLayer() == ColliderLayer::Goblin 
+     or other->GetLayer() == ColliderLayer::Ghost
+     or other->GetLayer() == ColliderLayer::Wizard)
     {
         if (minOverlap > 0)
         {
@@ -219,5 +231,13 @@ void Warrior::OnVerticalCollision(const float minOverlap, AABBColliderComponent*
         TakeDamage();
         mRigidBodyComponent->SpikeCollide();
         mRigidBodyComponent->SetVelocity(Vector2(mRigidBodyComponent->GetVelocity().x, mSpikesCollisionVelocity));
+    }
+    else if (other->GetLayer() == ColliderLayer::Explosion){
+        if (mInvincibilityTimer <= 0)
+        {
+            other->SetEnabled(false);
+            other->SetLayer(ColliderLayer::None);
+            TakeDamage();
+        }
     }
 }

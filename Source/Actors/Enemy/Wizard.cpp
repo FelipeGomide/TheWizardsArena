@@ -1,4 +1,5 @@
 #include "Wizard.h"
+#include "../Explosion.h"
 #include "../Puff.h"
 #include "../Player/Player.h"
 #include "../../Components/RigidBodyComponent.h"
@@ -7,11 +8,17 @@
 #include "../../Constants.h"
 #include "../../Game.h"
 
-Wizard::Wizard(Game* game, std::vector<Vector2> pointsTeleport, float teleportTimer)
+Wizard::Wizard(Game* game, std::vector<Vector2> pointsTeleport, float teleportTimer, float attackTimer, float attackCoolDown)
 : Actor(game)
 , mPointsTeleportation(pointsTeleport)
 , mCurrentState(States::Patrol)
-, mTeleportTimer(teleportTimer){
+, mTeleportTimer(teleportTimer)
+, mCurTeleportTimer(teleportTimer)
+, mAttackTimer(attackTimer)
+, mCurAttackTimer(attackTimer)
+, mAlertAttack(false)
+, mAttackCoolDown(attackCoolDown)
+, mCurAttackCoolDown(attackCoolDown){
 
 
     mRigidBodyComponent = new RigidBodyComponent(this);
@@ -27,6 +34,8 @@ Wizard::Wizard(Game* game, std::vector<Vector2> pointsTeleport, float teleportTi
     );
 
     mDrawComponent->AddAnimation("walk", {0, 1, 2, 3});
+    mDrawComponent->AddAnimation("idle", {0, 1, 2, 3});
+    mDrawComponent->AddAnimation("attack", {0, 1, 2, 3});
     mDrawComponent->SetAnimation("walk");
     mDrawComponent->SetAnimFPS(7.0f);
 }
@@ -41,32 +50,31 @@ void Wizard::HandleTransition(float deltaTime){
     auto dist = (playerPosition - GetPosition()).Length();
     dist /= Game::TILE_SIZE;
 
-    // auto resetPatrol = [&](){
-    //     mPatrolPath = {GetPosition() + Vector2(-30, 0), GetPosition() + Vector2(30, 0)};
-    //     mCurPosPatrol = 0;
-    // };
-
     switch (mCurrentState) {
         case States::Patrol:
             if (dist <= mTilesRadiusPerception) {
                 mCurrentState = (dist > 1.5f) ? States::Persue : States::Attack;
-                mGame->GetAudio()->PlaySound("monster/piggrunt1.wav");
+                mGame->GetAudio()->PlaySound("monster/grunt1.wav");
+                mDrawComponent->SetAnimation("idle");
             }
             break;
         case States::Persue:
             if (dist > mTilesRadiusPerception) {
                 mCurrentState = States::Patrol;
-                // resetPatrol();
+                mDrawComponent->SetAnimation("idle");
             }
-            else if (dist <= 1.5f) 
+            else if (dist <= 5.0f) 
                 mCurrentState = States::Attack;
+                mDrawComponent->SetAnimation("attack");
             break;
         case States::Attack:
-            if (dist > 1.5f) 
+            if (dist > 5.0f) {
                 mCurrentState = States::Persue;
+                mDrawComponent->SetAnimation("walk");
+            }
             else if (dist > mTilesRadiusPerception){
                 mCurrentState = States::Patrol;
-                // resetPatrol();
+                mDrawComponent->SetAnimation("idle");
             } 
             break;
         default: break;
@@ -75,14 +83,65 @@ void Wizard::HandleTransition(float deltaTime){
 
 void Wizard::PatrolAction(float deltaTime){
 
+    mCurTeleportTimer -= deltaTime;
+    if(mCurTeleportTimer < 0){
+        mCurTeleportTimer = mTeleportTimer;
+        new Puff(mGame, GetPosition());
+        auto nextPos = mPointsTeleportation[rand()%mPointsTeleportation.size()];
+        SetPosition(nextPos);
+        new Puff(mGame, nextPos);
+    }
+
 }
 
 void Wizard::PersueAction(float deltaTime){
 
+    if(!mGame->GetPlayer()) return;
+
+    auto playerPosition = mGame->GetPlayer()->GetPosition();
+    auto force = (playerPosition - GetPosition());
+    force.y = 0;
+    force.Normalize(), force *= mForwardSpeed;
+    mRigidBodyComponent->ApplyForce(force);
+
 }
 
 void Wizard::AttackAction(float deltaTime){
+    auto vel = mRigidBodyComponent->GetVelocity();
+    if(!Math::NearZero(vel.x, 0.01))
+        mRigidBodyComponent->ApplyForce(Vector2(-vel.x, 0));
+    
+    if(mCurAttackCoolDown > 0) return;
 
+    mCurAttackTimer -= deltaTime;
+    if(mCurAttackTimer < 1 and mAlertAttack == false){
+
+        auto curPos = GetPosition();
+        auto posPlayer = mGame->GetPlayer()->GetPosition();
+        auto direction = posPlayer - curPos;
+        direction.Normalize();
+        const float offSet = 3 * mGame->TILE_SIZE;
+
+        mPointsAttack.clear();
+
+        mAlertAttack = true;
+        for(int i = 0; i < 3; i ++){
+            curPos += offSet * direction;
+            new Puff(mGame, curPos, 1, PuffType::PreExplosion);
+            mPointsAttack.push_back(curPos);
+        }
+    }
+
+    if(mCurAttackTimer < 0 and mAlertAttack == true){
+        mCurAttackTimer = mAttackTimer;
+        mCurAttackCoolDown = mAttackCoolDown;
+        mAlertAttack = false;
+
+        for(auto pt : mPointsAttack){
+            new Explosion(mGame, pt, 2);
+        }
+    }
+    
 }
 
 void Wizard::Jump(){
@@ -121,6 +180,10 @@ void Wizard::OnUpdate(float deltaTime) {
     auto vel = mRigidBodyComponent->GetVelocity();
     if(vel.x <= 0) SetRotation(Math::Pi);
     else SetRotation(0);
+
+    mCurAttackCoolDown -= deltaTime;
+    if(mCurAttackCoolDown < 0)
+        mCurAttackCoolDown = -1;
 }
 
 
