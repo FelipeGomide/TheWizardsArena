@@ -151,17 +151,27 @@ float AABBColliderComponent::DetectVertialCollision(RigidBodyComponent *rigidBod
 
 void AABBColliderComponent::ResolveHorizontalCollisions(RigidBodyComponent *rigidBody, const float minXOverlap)
 {
-    if(mLayer == ColliderLayer::Attack or mLayer == ColliderLayer::Explosion)
+    
+    auto other = rigidBody->GetOwner()->GetComponent<AABBColliderComponent>()->GetLayer();
+    if(mLayer == ColliderLayer::Attack 
+    or mLayer == ColliderLayer::Explosion
+    or other == ColliderLayer::Attack 
+    or other == ColliderLayer::Explosion)
         return;
+        
     mOwner->SetPosition(mOwner->GetPosition() - Vector2(minXOverlap, 0.0f));
     rigidBody->SetVelocity(Vector2(0.f, rigidBody->GetVelocity().y));
-
 }
 
 void AABBColliderComponent::ResolveVerticalCollisions(RigidBodyComponent *rigidBody, const float minYOverlap)
 {
-    if(mLayer == ColliderLayer::Attack or mLayer == ColliderLayer::Explosion)
+    auto other = rigidBody->GetOwner()->GetComponent<AABBColliderComponent>()->GetLayer();
+    if(mLayer == ColliderLayer::Attack 
+    or mLayer == ColliderLayer::Explosion
+    or other == ColliderLayer::Attack 
+    or other == ColliderLayer::Explosion)
         return;
+
     mOwner->SetPosition(mOwner->GetPosition() - Vector2(0.0f, minYOverlap));
     rigidBody->SetVelocity(Vector2(rigidBody->GetVelocity().x, 0.f));
 

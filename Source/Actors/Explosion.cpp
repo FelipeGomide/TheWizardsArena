@@ -21,7 +21,7 @@ Explosion::Explosion(Game* game, Vector2 pos, float desappearTimer)
 
     mRigidBodyComponent = new RigidBodyComponent(this, 0, 0, false);
     mColliderComponent = new AABBColliderComponent(
-        this, 0, 0, 50*SIZE_MULTIPLIER, 50*SIZE_MULTIPLIER, ColliderLayer::Explosion, false, false
+        this, 0, 25*SIZE_MULTIPLIER, 50*SIZE_MULTIPLIER, 25*SIZE_MULTIPLIER, ColliderLayer::Explosion, false, false
     );
 }
 

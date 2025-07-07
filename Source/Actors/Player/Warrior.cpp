@@ -185,8 +185,6 @@ void Warrior::OnHorizontalCollision(const float minOverlap, AABBColliderComponen
         or other->GetLayer() == ColliderLayer::Ghost 
         or other->GetLayer() == ColliderLayer::Wizard)
     {
-        SDL_Log("Collision with enemy!");
-        SDL_Log("%f", mInvincibilityTimer);
         if (mInvincibilityTimer <= 0)
         {
             TakeDamage();
@@ -243,6 +241,7 @@ void Warrior::OnVerticalCollision(const float minOverlap, AABBColliderComponent*
             other->SetEnabled(false);
             other->SetLayer(ColliderLayer::None);
             TakeDamage();
+            mRigidBodyComponent->SetVelocity(Vector2(mRigidBodyComponent->GetVelocity().x, mJumpSpeed/2.f));
         }
     }
 }

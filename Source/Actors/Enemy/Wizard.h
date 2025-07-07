@@ -23,7 +23,7 @@ private:
     const float mForwardSpeed = 1000.0f;
 
     const float mTilesRadiusPerception = 10;
-    const float mMaxvelocity = 500;
+    const float mMaxvelocity = 150;
     const float mJumpVelocity = 600;
     const float GRAVITY = 2000;
 

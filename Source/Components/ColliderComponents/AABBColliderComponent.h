@@ -31,10 +31,10 @@ public:
     // Collider ignore map
     const std::map<ColliderLayer, const std::set<ColliderLayer>> ColliderIgnoreMap = {
         {ColliderLayer::Player, {ColliderLayer::None}},
-        {ColliderLayer::Enemy,  {ColliderLayer::None}},
-        {ColliderLayer::Goblin,  {ColliderLayer::None}},
-        {ColliderLayer::Wizard, {ColliderLayer::None}},
-        {ColliderLayer::Blocks, {ColliderLayer::None, ColliderLayer::Blocks}},
+        {ColliderLayer::Enemy,  {ColliderLayer::None, ColliderLayer::Explosion}},
+        {ColliderLayer::Goblin,  {ColliderLayer::None, ColliderLayer::Explosion}},
+        {ColliderLayer::Wizard, {ColliderLayer::None, ColliderLayer::Explosion}},
+        {ColliderLayer::Blocks, {ColliderLayer::None, ColliderLayer::Blocks, ColliderLayer::Explosion, ColliderLayer::Attack}},
         {ColliderLayer::Ghost, {ColliderLayer::None, ColliderLayer::Blocks, ColliderLayer::Goblin, ColliderLayer::Ghost, ColliderLayer::Platform, ColliderLayer::Explosion}},
         {ColliderLayer::Attack, {ColliderLayer::None, ColliderLayer::Blocks, ColliderLayer::Player}},
         {ColliderLayer::Platform, {ColliderLayer::None, ColliderLayer::Blocks, ColliderLayer::Platform, ColliderLayer::Ghost}},

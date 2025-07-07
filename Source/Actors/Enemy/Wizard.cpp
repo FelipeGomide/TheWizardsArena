@@ -5,6 +5,7 @@
 #include "../../Components/RigidBodyComponent.h"
 #include "../../Components/ColliderComponents/AABBColliderComponent.h"
 #include "../../Components/DrawComponents/DrawAnimatedComponent.h"
+#include "../../Components/AI/SteeringBehavior.h"
 #include "../../Constants.h"
 #include "../../Game.h"
 
@@ -99,11 +100,10 @@ void Wizard::PersueAction(float deltaTime){
     if(!mGame->GetPlayer()) return;
 
     auto playerPosition = mGame->GetPlayer()->GetPosition();
-    auto force = (playerPosition - GetPosition());
+    auto myVelocity = mRigidBodyComponent->GetVelocity();
+    auto force = SteeringBehavior::Seek(GetPosition(), playerPosition, myVelocity, mMaxvelocity);
     force.y = 0;
-    force.Normalize(), force *= mForwardSpeed;
-    mRigidBodyComponent->ApplyForce(force);
-
+    mRigidBodyComponent->ApplyForce(force * 100);
 }
 
 void Wizard::AttackAction(float deltaTime){

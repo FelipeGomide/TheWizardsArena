@@ -135,6 +135,7 @@ Player::Player(Game *game, int healthPoints, float forwardSpeed, float jumpSpeed
 
 void Player::Kill()
 {
+    if(mIsDying) return;
     mIsDying = true;
     //mDrawComponent->SetAnimation("Dead");
 
@@ -143,6 +144,7 @@ void Player::Kill()
     mColliderComponent->SetEnabled(false);
 
     mGame->GetAudio()->StopAllSounds();
+
     mGame->GetAudio()->PlaySound("Dead.wav");
 
     mGame->SetGameScene(Game::GameScene::GameOver, 3);
@@ -151,10 +153,12 @@ void Player::Kill()
 
 void Player::TakeDamage() {
     mHpCounter -= 1;
-    GetGame()->GetHUD()->SetHealth(mHpCounter);
-    GetGame()->SetHP(mHpCounter);
     if (mHpCounter <= 0) {
         Kill();
+    }
+    if(mHpCounter >= 0){
+        GetGame()->GetHUD()->SetHealth(mHpCounter);
+        GetGame()->SetHP(mHpCounter);
     }
 
     mInvincibilityTimer = .5f;

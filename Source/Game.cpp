@@ -283,6 +283,9 @@ void Game::LoadMainMenu()
     // Esse método será usado para criar uma tela de UI e adicionar os elementos do menu principal.
     auto mainMenu = new UIScreen(this, "../Assets/Fonts/Kenney Bold.ttf");
 
+    // Reset the health
+    mHP = 10;
+
     const Vector2 logoSize = Vector2(1080.0f, 567.42f);
     const Vector2 logoPos = Vector2(mWindowWidth/2.0f - logoSize.x/2.0f, 0);
     mainMenu->AddImage("../Assets/Sprites/Titulo-Wizard's-Arena.png", logoPos, logoSize);
