@@ -15,7 +15,7 @@ Puff::Puff(Game* game, Vector2 pos, float desappearTimer, PuffType type)
         );
 
         mDrawComponent->AddAnimation("explode", {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
-        mDrawComponent->SetAnimFPS(9);
+        mDrawComponent->SetAnimFPS(12.0/desappearTimer);
         mDrawComponent->SetAnimation("explode");
     }
     else if(type == PuffType::PreExplosion){
@@ -28,7 +28,7 @@ Puff::Puff(Game* game, Vector2 pos, float desappearTimer, PuffType type)
         );
 
         mDrawComponent->AddAnimation("explode", {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
-        mDrawComponent->SetAnimFPS(9);
+        mDrawComponent->SetAnimFPS(10/desappearTimer);
         mDrawComponent->SetAnimation("explode");
     }
 
